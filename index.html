@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+  <title>p5.js Sketch Test</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+</head>
+<body>
+
+  <div id="sketch-container" class="center ugh"></div>
+  <div class="content">
+    <p class="title">How the ruffed grouse protects his drumming spot</p>
+    <p class="body">It’s springtime and the male ruffed grouse wants a mate. Ruffed grouse are small birds, weighing only a pound. They live for an average of 18 months and counter this by reproducing prolifically in this short period of time. This results in a rushed childhood with reproduction being the extent of teaching parent grouses pass onto their kin. They are unique in being the only bird species in the world where the males perform a courting ritual we call ‘drumming’. After choosing a ‘drumming log’, and testing its stability, the male grouse leans back on his tail to assume the required pose. He strikes his wings against the air, flapping them together at about two second intervals. By repeating this quicker and quicker, he makes a noise like thunder which continues for about a minute before ceasing for around an eight minute break, and then beginning it again. In this process, he manages to create a vacuum between his wings and the air in a mechanic similar to that of lighting. This ritual is performed on his sacred chosen log. He knew which log to pick, after all, the practice of drumming is one ingrained within him. In spite of this, in order to produce the thunderous sound, he practiced for two weeks and once correct, his drumming produced a sound that is heard in a near half mile radius. During Autumn, less drumming is performed but the need for a mate is replaced by the need to assert dominance over other males and the still goes to his drumming log and continues as he would in the spring, this time causing the dead leaves surrounding him and his drumming log to fly up into the air. If another male ruffed grouse comes by he has to defend his drumming log and attack. It’s only natural.</p>
+    <p class="title">The mirror trap and how we use it to catch a male ruffed grouse</p>
+    <p class="body">The mirror trap is simple box in construction. It’s made of a wooden frame that measures twenty-eight inches long, fourteen inches wide and eighteen inches tall. A trap requires bait and the mirror trap trades the typical scent or ‘treasure’ based bait for a simple mirror, eight inches wide and ten inches tall. This mirror is enough to capture the mirrors specific target of the male ruffed grouse. The hardest part of trapping is knowing when and where to place the trap.The trapper must know something of the ruffled grouse and its habits, desires and capabilities, so that they can be used against it. The trapper must imagine themself in the grouses life in order for the grouse to walk, voluntarily into his own violation. To do this we must place ourselves in the perspective of 
+      the male ruffed grouse:
+      
+      It’s springtime and the male ruffed grouse wants a mate. This makes the male ruffed grouse aggressive. The ruffed grouse is also not smart enough to recognise its own reflection in the mirror. It mistake it for another bird. With its increased aggression this can cause it to attempt to attack its own reflection. They are unique in being the only bird species in the world where the males perform a courting ritual we call ‘drumming’. A chosen ‘drumming log’, gives the ruffed grouse something to protect. It becomes territorial, attacking other male ruffed grouses that invade his drumming site. If we place a mirror here, it will attempt to attack itself. Its drumming makes a noise like thunder that reveals its location. We can follow this sound to find where to put the mirror trap as a ruffed grouse keeps the same drumming spot. Once set up the ruffed grouse will  rush towards its reflection, mistaking it for another male ruffed grouse invading its drumming spot, triggering the traps release mechanism and trapping him in the mirror trap. We can justify this as the ruffed grouse couldn’t recognise its own reflection and therefore it’s not a sentient animal like we are. It caused its own fate. It’s only natural.
+      
+      The hardest part of trapping is knowing when and where to place the trap.The male ruffed grouse trapper must know something of their targets habits, desires and capabilities, so that they can be used against him. They must imagine themself in the grouses life in order for the grouse to walk, voluntarily into his own violation. The trapper must place themselves in the perspective of the victim.</p>
+    <p class="title">The mirror trap has a simple problem</p>
+    <p class="body">The box is filled with those who fit in it, while the rest remain outside.
+
+      The trapper creates a profile of the ruffed grouse as aggressive and territorial. If the target ruffed grouse doesn’t possess these qualities, instead being timid and avoidant, he will simply ignore his reflection in the mirror despite still not viewing it as his own. The mirror trap only traps the aggressive and territorial grouses, letting the rest of them roam free. Furthermore, our ethics in trapping the ruffed grouse to begin with rely on the ethics of the ruffed grouse being ‘lesser’ than us due to his inability to recognise his own reflection. In the process of trapping the ruffed grouse in a box we have in turned the ruffed grouse into a box itself. Our definition of a box becomes ‘an animal that can’t recognise its own reflection’ .This box is rigid and lifeless, conforming to our ideals not only in how it acts, but how it exists. Therefore: </p>
+  </div>
+
+
+  <img src="title.png" alt="Title" class="center">
+  
+  <script>
+    let cam;
+    let overlayImages = [];
+    let currentOverlay = 0;
+    let lastSwitchTime = 0;
+    let switchInterval = 1000; 
+
+    new p5((p) => {
+      p.preload = function() {
+        overlayImages[0] = p.loadImage('overlayGrey.png');
+        overlayImages[1] = p.loadImage('overlayPink.png');
+        overlayImages[2] = p.loadImage('overlayOrange.png');
+      };
+
+      p.setup = function() {
+        const canvas = p.createCanvas(460, 360);
+        canvas.parent('sketch-container');  // Attach canvas here
+        p.pixelDensity(1);
+        cam = p.createCapture(p.VIDEO);
+        cam.size(460, 360);
+        cam.hide();
+      };
+
+      p.draw = function() {
+        p.background(0);
+        cam.loadPixels();
+        p.loadPixels();
+
+        for (let y = 0; y < p.height; y++) {
+          for (let x = 0; x < p.width; x++) {
+            let i = (x + y * p.width) * 4;
+
+            let r = cam.pixels[i];
+            let g = cam.pixels[i + 1];
+            let b = cam.pixels[i + 2];
+
+            let brightness = 0.005 * r + 0.35 * g + 0.045 * b;
+            brightness = Math.pow(brightness / 255, 0.65) * 255;
+
+            let col;
+            if (brightness < 75) {
+              col = p.color(190, 190, 200);
+            } else if (brightness < 110) {
+              col = p.color(255, 0, 105);
+            } else {
+              col = p.color(255, 150, 0);
+            }
+
+            p.pixels[i]     = p.red(col);
+            p.pixels[i + 1] = p.green(col);
+            p.pixels[i + 2] = p.blue(col);
+            p.pixels[i + 3] = 255;
+          }
+        }
+        p.updatePixels();
+
+        if (p.millis() - lastSwitchTime > switchInterval) {
+          currentOverlay = (currentOverlay + 1) % overlayImages.length;
+          lastSwitchTime = p.millis();
+        }
+
+        p.image(overlayImages[currentOverlay], 0, 0, p.width, p.height);
+      };
+    });
+  </script>
+
+</body>
+</html>
